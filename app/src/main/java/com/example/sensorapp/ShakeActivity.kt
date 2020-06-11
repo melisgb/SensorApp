@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.VibrationEffect
 import android.os.Vibrator
 import android.service.carrier.CarrierMessagingService
 import android.util.Log
@@ -61,8 +62,9 @@ class ShakeActivity : AppCompatActivity(), SensorEventListener {
         shake = shake * 0.5f + delta
         Log.d("Shake Info", shake.toString())
         if(shake > 8){
-            var vibrate = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            vibrate.vibrate(200)
+            var vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+//            vibrator.vibrate(200) - this was used for Build version lower than 26
+            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
             Toast.makeText(applicationContext, "Vibration", Toast.LENGTH_SHORT).show()
             txtView_shakeMsg.setTextColor(getColor(R.color.colorAccent))
         }
