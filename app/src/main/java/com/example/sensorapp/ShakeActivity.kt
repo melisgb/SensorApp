@@ -11,6 +11,9 @@ import android.os.Vibrator
 import android.service.carrier.CarrierMessagingService
 import android.util.Log
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_shake.*
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 class ShakeActivity : AppCompatActivity(), SensorEventListener {
     //Sensor event listener will provide a value everytime sensor changes
@@ -41,36 +44,30 @@ class ShakeActivity : AppCompatActivity(), SensorEventListener {
     }
 
 
-    var xOld = 0.0
-    var yOld = 0.0
-    var zOld = 0.0
-    var threadShort = 300.0
-    var oldTime = 0L
+    var acelVal = SensorManager.GRAVITY_EARTH
+    var acelLast = SensorManager.GRAVITY_EARTH
+    var shake = 0.00f
 
     override fun onSensorChanged(event: SensorEvent?) {
         //executed everytime a change occurs in one of the sensors
         val x = event!!.values[0] //acceleration force in x-axis
         val y = event!!.values[1]
         val z = event!!.values[2]
-        val currentTime = System.currentTimeMillis()
-        if(currentTime - oldTime > 100){
-            val timeDiff = currentTime - oldTime
-            val distanceDiff = x + y + z - xOld - yOld - zOld
-            oldTime = currentTime
 
-            //speed = distance / time
-            val speed = Math.abs(distanceDiff) / timeDiff*10000
-            Log.d("App Info", speed.toString())
+        acelLast = acelVal
+        acelVal = sqrt((x*x + y*y + z*z).toDouble()).toFloat()
 
-            if(speed > threadShort){
-                var vibrate = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                vibrate.vibrate(500)
-                Toast.makeText(this, "Vibration", Toast.LENGTH_SHORT).show()
-            }
-            xOld = x.toDouble()
-            yOld = y.toDouble()
-            zOld = z.toDouble()
-
+        val delta = abs(acelVal - acelLast)
+        shake = shake * 0.5f + delta
+        Log.d("Shake Info", shake.toString())
+        if(shake > 8){
+            var vibrate = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            vibrate.vibrate(200)
+            Toast.makeText(applicationContext, "Vibration", Toast.LENGTH_SHORT).show()
+            txtView_shakeMsg.setTextColor(getColor(R.color.colorAccent))
+        }
+        else {
+            txtView_shakeMsg.setTextColor(getColor(R.color.colorPrimaryDark))
         }
     }
 }

@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShakeActivity">
+    tools:context=".LightActivity">
 
     <TextView
-        android:id="@+id/txtView_shakeMsg"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtView_light"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:inputType="textMultiLine"
-        android:text="Shake the phone\n to vibrate"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="36sp"
+        android:gravity="center_horizontal"
+        android:text="Wait for the\n light sensor!"
+        android:textColor="#000000"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

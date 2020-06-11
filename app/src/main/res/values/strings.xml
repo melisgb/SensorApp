@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SensorApp</string>
     <string name="go_to_shake">Go to Shake</string>
+    <string name="go_to_light">Go to Light</string>
 </resources>
