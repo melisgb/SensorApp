@@ -1,6 +1,7 @@
 package com.example.sensorapp
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -22,6 +24,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         setContentView(R.layout.activity_main)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sensor = sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT)
+
+        btn_Goto.setOnClickListener {
+            val intent = Intent(this, ShakeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
@@ -40,7 +47,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     var isRunning = false
     override fun onSensorChanged(event: SensorEvent?) {
-        if(event!!.values[0]> 40 && !isRunning){
+        if(event!!.values[0]> 20 && !isRunning){
             isRunning = true
             try{
                 Toast.makeText(this, "Change detected", Toast.LENGTH_SHORT).show()
